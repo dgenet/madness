@@ -270,11 +270,11 @@ vecfuncT CIS_Operators::S3C_C(const vecfuncT &tau) const {
 	return result;
 }
 
-// The Exchange Term of the S3C diagram: Negative sign
-// \  /
-//  \/...   = Q\sum_j(<j|g12|i>|tau_j>)
-//     / \
-//    _\_/_
+  /*The Exchange Term of the S3C diagram: Negative sign*/
+  /*\  /*/
+  /* \/...   = Q\sum_j(<j|g12|i>|tau_j>)*/
+  /*    / \ */
+  /*   _\_/_ */
 vecfuncT CIS_Operators::S3C_X(const vecfuncT &tau) const {
   if(debug)START_TIMER();
 	vecfuncT result;

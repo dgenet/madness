@@ -255,8 +255,8 @@ public:
         truncate(world,t1);
         vector_complex_function_3d t2 = ::apply(world,ops,t1);
         vector_complex_function_3d t3 = mul(world,phase_m,t2);
-        return t3;
         END_TIMER(world, "apply periodic bsh");
+        return t3;
     }
 };
 

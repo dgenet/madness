@@ -136,19 +136,20 @@ protected:
 
     /// Smoothly switches between constant (x<xmin) and linear function (x>xmax)
 
-    /// \f[
-    /// f(x,x_{\mathrm{min}},x_{\mathrm{max}}) = \left\{
-    ///   \begin{array}{ll}
-    ///     x_{\mathrm{min}}                       & x < x_{\mathrm{min}} \\
-    ///     p(x,x_{\mathrm{min}},x_{\mathrm{max}}) & x_{\mathrm{min}} \leq x_{\mathrm{max}} \\
-    ///     x                                      & x_{\mathrm{max}} < x
-    ///   \end{array}
-    /// \right.
-    /// \f]
-    /// where \f$p(x)\f$ is the unique quintic polynomial that
-    /// satisfies \f$p(x_{min})=x_{min}\f$, \f$p(x_{max})=x_{max}\f$,
-    /// \f$dp(x_{max})/dx=1\f$, and
-    /// \f$dp(x_{min})/dx=d^2p(x_{min})/dx^2=d^2p(x_{max})/dx^2=0\f$.
+    /* \f[ */
+    /* f(x,x_{\mathrm{min}},x_{\mathrm{max}}) = \left\{ */
+    /*   \begin{array}{ll} */
+    /*     x_{\mathrm{min}}                       & x < x_{\mathrm{min}} \\ */
+    /*     p(x,x_{\mathrm{min}},x_{\mathrm{max}}) & x_{\mathrm{min}} \leq x_{\mathrm{max}} \\ */
+    /*     x                                      & x_{\mathrm{max}} < x */
+    /*   \end{array} */
+    /* \right. */
+    /* \f] */
+    /* where \f$p(x)\f$ is the unique quintic polynomial that */
+    /* satisfies \f$p(x_{min})=x_{min}\f$, \f$p(x_{max})=x_{max}\f$, */
+    /* \f$dp(x_{max})/dx=1\f$, and */
+    /* \f$dp(x_{min})/dx=d^2p(x_{min})/dx^2=d^2p(x_{max})/dx^2=0\f$. */
+
     static void polyn(const double x, double& p, double& dpdx) {
         // All of the static const stuff is evaluated at compile time
 

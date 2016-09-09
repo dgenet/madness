@@ -689,7 +689,7 @@ real_function_3d Nemo::kinetic_energy_potential(const vecfuncT& nemo) const {
     real_function_3d rho=2.0*dot(world,nemo,R2nemo);
 
     std::vector<double> eps(nemo.size());
-    for (int i=0; i<eps.size(); ++i) eps[i]=calc->aeps(i);
+    for (unsigned int i=0; i<eps.size(); ++i) eps[i]=calc->aeps(i);
     scale(world,R2nemo,eps);
     real_function_3d phiepsilonphi=dot(world,R2nemo,nemo);
 

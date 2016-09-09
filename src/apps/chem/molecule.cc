@@ -69,7 +69,7 @@ std::vector<std::string> cubefile_header(std::string filename) {
     molecule.read_file(filename);
     molecule.orient();
     std::vector<std::string> molecular_info;
-    for (unsigned int i=0; i<molecule.natom(); ++i) {
+    for (int i=0; i<molecule.natom(); ++i) {
         std::stringstream ss;
         const int charge=molecule.get_atom(i).get_atomic_number();
         ss << charge << " " << charge << " ";
@@ -626,7 +626,7 @@ void Molecule::identify_point_group() {
 Tensor<double> Molecule::center_of_mass() const {
     Tensor<double> com(3);
     double xx=0.0, yy=0.0, zz=0.0, qq=0.0;
-    for (unsigned int i=0; i<natom(); ++i) {
+    for (int i=0; i<natom(); ++i) {
         xx += get_atom(i).x*get_atom(i).mass;
         yy += get_atom(i).y*get_atom(i).mass;
         zz += get_atom(i).z*get_atom(i).mass;

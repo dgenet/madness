@@ -1056,7 +1056,7 @@ namespace madness {
                 gradient_operator<T,NDIM>(world);
 
         std::vector<Function<T,NDIM> > result(NDIM);
-        for (int i=0; i<NDIM; ++i) result[i]=apply(*(grad[i]),f,false);
+        for (unsigned int i=0; i<NDIM; ++i) result[i]=apply(*(grad[i]),f,false);
         if (fence) world.gop.fence();
         return result;
     }
@@ -1082,7 +1082,7 @@ namespace madness {
                 gradient_operator<T,NDIM>(world);
 
         std::vector<Function<T,NDIM> > result(NDIM);
-        for (int i=0; i<NDIM; ++i) result[i]=apply(*(grad[i]),v[i],false);
+        for (unsigned int i=0; i<NDIM; ++i) result[i]=apply(*(grad[i]),v[i],false);
         world.gop.fence();
         return sum(world,result,fence);
     }

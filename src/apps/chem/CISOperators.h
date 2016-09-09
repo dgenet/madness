@@ -195,11 +195,11 @@ public:
 	//  _\_/_
 	vecfuncT S3C_C(const vecfuncT &tau) const;
 
-	// The Exchange Term of the S3C diagram: Negative sign
-	// \  /
-	//  \/...   = Q\sum_j(<j|g12|i>|tau_j>)
-	//     / \
-	//    _\_/_
+	/* The Exchange Term of the S3C diagram: Negative sign */
+	/* \  / */
+	/*  \/...   = Q\sum_j(<j|g12|i>|tau_j>) */
+	/*     / \ */
+	/*    _\_/_ */
 	vecfuncT S3C_X(const vecfuncT &tau) const;
 
 	// Project out the occupied space

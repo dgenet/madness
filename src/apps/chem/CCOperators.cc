@@ -1025,6 +1025,7 @@ namespace madness {
     // Contruct the BSH operator in order to screen
 
     double bsh_eps = eps;
+    (void)bsh_eps;
     if(u.type==EXCITED_STATE){
       if(world.rank()==0) std::cout << "omega for bsh is " << u.current_energy << "\n";
       bsh_eps = eps + u.current_energy;

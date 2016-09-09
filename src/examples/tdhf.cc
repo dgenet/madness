@@ -88,7 +88,7 @@ int main(int argc, char** argv) {
 	bool only_sequential=false;
 	bool use_nemo=true;
 
-	for(size_t i=0;i<argc;i++){
+	for(int i=0;i<argc;i++){
 		if(strcmp(argv[i],"-tda_print_grid")==0) print_grid = true;
 		if(strcmp(argv[i],"-tda_no_compute")==0) no_compute = true;
 		if(strcmp(argv[i],"-tda_analyze")==0) no_compute = true;

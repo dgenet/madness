@@ -286,6 +286,7 @@ namespace madness {
             unsigned int i, n;
             long double dotp, d;
             long double lambda, dist, temp[2], upper;
+	    (void)lambda;
             std::vector<long double> roots;
 
             // silence warnings

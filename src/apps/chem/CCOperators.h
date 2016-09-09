@@ -939,6 +939,8 @@ namespace madness {
 	  result = sub(world,f12_part,projected_part);
 	  break;
 	}
+      default: //Always default
+	break;
       }
 
       data.result_size = get_size(world, result);
@@ -1166,6 +1168,8 @@ namespace madness {
 	  result = sub(world,result,S4c_u_part(re_reg_O1_tt,tau));
 	  result = sub(world,result,S4c_u_part(re_reg_O2_tt,tau));
 	}break;
+      default: //Always default
+	break;
       }
       data.result_size = get_size(world, result);
       data.result_norm = norm2(world, result);
@@ -1825,6 +1829,7 @@ namespace madness {
     real_function_6d make_nonorthogonal_regularization_residue(size_t i, size_t j)const{
       output("Calculating nonorthogonal GV_reg");
       const bool symmetric(i==j);
+      (void)symmetric;
 
       real_function_6d Vreg;
       Vreg = apply_regularization_potential(mo_ket_(i),mo_ket_(i),0.0);

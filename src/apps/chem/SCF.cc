@@ -491,7 +491,7 @@ namespace madness {
         {
             functionT frsq = factoryT(world).f(rsquared).initial_level(4);
             rsq = inner(world, mo, mul_sparse(world, frsq, mo, vtol));
-            for (int axis = 0; axis < 3; ++axis) {
+            for (unsigned int axis = 0; axis < 3; ++axis) {
                 functionT fdip = factoryT(world).functor(
                                                          functorT(new DipoleFunctor(axis))).initial_level(4);
                 dip(axis, _) = inner(world, mo, mul_sparse(world, fdip, mo, vtol));
@@ -1036,7 +1036,7 @@ namespace madness {
             if (!param.pure_ae){
                 double enl;
                 tensorT occ = tensorT(ao.size());
-                for(unsigned int i = 0;i < param.nalpha;++i){
+                for(int i = 0;i < param.nalpha;++i){
                     occ[i] = 1.0;}
                 for(unsigned int i = param.nalpha;i < ao.size();++i){
                     occ[i] = 0.0;}
@@ -2945,7 +2945,7 @@ namespace madness {
         return Vdmo;
     }
 
-    void SCF::this_axis(World & world, int & axis)
+    void SCF::this_axis(World & world, unsigned int & axis)
     {
         print("\n");
         if (world.rank() == 0) { 
@@ -2960,7 +2960,7 @@ namespace madness {
         }
     }
 
-    vecfuncT SCF::calc_dipole_mo(World & world,  vecfuncT & mo, int & axis)
+    vecfuncT SCF::calc_dipole_mo(World & world,  vecfuncT & mo, unsigned int & axis)
     {
         //START_TIMER(world);
 
@@ -2973,7 +2973,7 @@ namespace madness {
         reconstruct(world, mo);  
 
         // dipolefunc * mo[iter]
-        for(int p=0; p<mo.size(); ++p)
+        for(unsigned int p=0; p<mo.size(); ++p)
             dipolemo[p] =  mul_sparse(dipolefunc, mo[p],false);
 
         //END_TIMER(world, "Make perturbation");
@@ -3050,7 +3050,7 @@ namespace madness {
     {
         functionT drho = factoryT(world);
         drho.compress();
-        for(int i=0; i<mo.size(); ++i) {
+        for(unsigned int i=0; i<mo.size(); ++i) {
             functionT rhoi = mo[i] * x[i] + mo[i] * y[i];
             rhoi.compress();
             if(occ[i])
@@ -3075,7 +3075,7 @@ namespace madness {
 
         functionT k1 = factoryT(world);
         functionT k2 = factoryT(world);
-        for(int i=0; i<mo.size(); ++i) {
+        for(unsigned int i=0; i<mo.size(); ++i) {
             k1 = apply(*coulop, ( mo[i] * mo[p] )) * dmo1[i];
             k2 = apply(*coulop, ( mo[p] * dmo2[i] )) * mo[i];
             dKmo = dKmo - (k1 + k2);
@@ -3142,7 +3142,7 @@ namespace madness {
         if(xc.hf_exchange_coefficient() == 1.0){
         //if(xc.hf_exchange_coefficient()){
             START_TIMER(world);
-            for(int p=0; p<mo.size(); ++p) {
+            for(unsigned int p=0; p<mo.size(); ++p) {
                 djkmo[p] = calc_exchange_function(world, p, dmo1, dmo2, mo,spin);
                //add a fraction only
                 djkmo[p].scale(xc.hf_exchange_coefficient());
@@ -3167,7 +3167,7 @@ namespace madness {
         Projector<double,3> rho0(mo);
 
         vecfuncT gp = add(world, dipolemo, djkmo);
-        for (int i=0; i<Vdmo.size(); ++i) {
+        for (unsigned int i=0; i<Vdmo.size(); ++i) {
             functionT gp1 =  gp[i];
             gp1 = gp1 - rho0(gp1);
             gp1 = Vdmo[i] + gp1 ;
@@ -3196,8 +3196,8 @@ namespace madness {
     void SCF::orthogonalize_response(World & world, vecfuncT & dmo, vecfuncT & mo )
     {
      reconstruct(world, dmo);
-       for(int i=0; i<mo.size(); ++i){
-           for (int j=0; j<mo.size(); ++j){
+       for(unsigned int i=0; i<mo.size(); ++i){
+           for (unsigned int j=0; j<mo.size(); ++j){
                // new_x = new_x - < psi | new_x > * psi
                dmo[i] = dmo[i] - dmo[i].inner(mo[j])*mo[j];
            }
@@ -3207,7 +3207,7 @@ namespace madness {
 
 //vama ugly ! alpha_ij(w) = - sum(m occ) [<psi_m(0)|r_i|psi_mj(1)(w)> + <psi_mj(1)(-w)|r_i|psi_m(0)>]
 
-    void SCF::dpolar(World & world, tensorT & polar, functionT & drho, int & axis)
+    void SCF::dpolar(World & world, tensorT & polar, functionT & drho, unsigned int & axis)
     {
         for(int i=0; i<3; ++i) {
             std::vector<int> f(3, 0);
@@ -3220,10 +3220,11 @@ namespace madness {
     void SCF::calc_dpolar(World & world,  
             const vecfuncT & ax, const vecfuncT & ay, 
             const vecfuncT & bx, const vecfuncT & by, 
-            int & axis,
+            unsigned int & axis,
             tensorT & Dpolar_total, tensorT & Dpolar_alpha, tensorT & Dpolar_beta)
     {
         int fflag = 0;
+	(void)fflag;
         double Dpolar_average = 0.0;
         double Dpolar_iso = 0.0;
 
@@ -3415,11 +3416,11 @@ namespace madness {
 
 #ifdef MADNESS_HAS_LIBXC
             if (xc.is_gga()) {
-                for (int axis = 0; axis < 3; ++axis)
+                for (unsigned int axis = 0; axis < 3; ++axis)
                           delrho.push_back((*gradop[axis])(arho, false)); // delrho
                 if (!param.spin_restricted && param.nbeta != 0)
                 //TODO if (xc.is_spin_polarized() && param.nbeta != 0)
-                          for (int axis = 0; axis < 3; ++axis)
+                          for (unsigned int axis = 0; axis < 3; ++axis)
                                   delrho.push_back((*gradop[axis])(brho, false));
 
                 world.gop.fence(); // NECESSARY
@@ -3484,7 +3485,7 @@ namespace madness {
         const double rconv = std::max(FunctionDefaults<3>::get_thresh(), param.rconv);
         int maxsub_save = param.maxsub;
 
-        for ( int axis=0; axis<param.response_axis.size(); axis++) {
+        for (unsigned int axis=0; axis<param.response_axis.size(); axis++) {
             if(!param.response_axis[axis]) continue; 
         
             subspaceT subspace;
@@ -3758,7 +3759,7 @@ namespace madness {
             
 #if  0
 //hyper polarizability
-            for (int p=0; p < ax_old.size(); p++){
+            for (unsigned int p=0; p < ax_old.size(); p++){
                 axx.push_back(ax_old[p]);
                 ayx.push_back(ay_old[p]);
                 if(!param.spin_restricted && param.nbeta != 0) { 

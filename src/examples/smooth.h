@@ -77,6 +77,7 @@ struct munging_operator {
         ITERATOR(U,
                  double f = function(IND);
                  double sf = smoothed_function(IND);
+		 (void)sf;
                  if (fabs(f)<thresh_)
                      U(IND) = 0.0;
                  else

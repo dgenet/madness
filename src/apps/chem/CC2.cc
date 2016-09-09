@@ -55,6 +55,7 @@ namespace madness {
     output_section("Solve MP2");
     if(not parameters.no_compute){
       bool mp2_converged=true;
+      (void)mp2_converged;
       for(auto& tmp_pair : doubles.allpairs){
 	update_constant_part_mp2(tmp_pair.second);
 	bool pair_converged=iterate_pair(tmp_pair.second);
@@ -73,6 +74,7 @@ namespace madness {
     output_section("Solve MP2");
     if(not parameters.no_compute){
       bool mp2_converged=true;
+      (void)mp2_converged;
       for(auto& tmp_pair : doubles.allpairs){
 	const double ij_gf_ij = CCOPS.make_ijgfxy(tmp_pair.second.i,tmp_pair.second.j,CCOPS.mo_ket(tmp_pair.second.i).function,CCOPS.mo_ket(tmp_pair.second.j).function);
 	const double ji_gf_ij = CCOPS.make_ijgfxy(tmp_pair.second.j,tmp_pair.second.i,CCOPS.mo_ket(tmp_pair.second.i).function,CCOPS.mo_ket(tmp_pair.second.j).function);
@@ -96,6 +98,7 @@ namespace madness {
 
     CCOPS.update_response_intermediates(cis_singles);
     bool cispd_converged=true;
+    (void)cispd_converged;
     output("\n\n Making empty CC2-gs-singles for CIS(D) calculation");
     CC_vecfunction empty_singles(zero_functions<double,3>(world,cis_singles.size()),PARTICLE,parameters.freeze);
     CCOPS.update_intermediates(empty_singles);
