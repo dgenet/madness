@@ -34,7 +34,6 @@
 
 
 /// \file mra/startup.cc
-
 #include <madness/mra/mra.h>
 #include <madness/tensor/tensor.h>
 #include <madness/world/timers.h>
@@ -169,11 +168,25 @@ namespace madness {
 #endif
 #ifdef STUBOUTMPI
 	    print("                    MPI ...", "stubbed out");
-#elif MADNESS_MPI_THREAD_LEVEL == MPI_THREAD_SERIALIZED
-	    print("                    MPI ...", "serialized");
-#else
-	    print("                    MPI ...", "multiple");
 #endif
+
+#if defined(MPI_THREAD_SERIALIZED)
+	    /* MPICH defines constant as sharp-define */
+#    if (MADNESS_MPI_THREAD_LEVEL == MPI_THREAD_SERIALIZED)
+	    print("                    MPI ...", "serialized");
+#    else
+	    print("                    MPI ...", "multiple");
+#    endif
+#else
+	    /* OpenMPI defines thread level as enum */
+	    const int provided = SafeMPI::Query_thread();
+	    if (provided == MPI_THREAD_SERIALIZED)
+		    print("                    MPI ...", "serialized");
+	    else
+		    print("                    MPI ...", "multiple");
+#endif
+
+
 #if HAVE_INTEL_TBB
             print(" multi-threaded runtime ...", "Intel TBB");
 #elif defined(HAVE_PARSEC)
