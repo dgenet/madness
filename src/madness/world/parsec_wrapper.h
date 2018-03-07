@@ -7,9 +7,9 @@
 namespace Parsec {
     class Handle {
     protected:
-        parsec_handle_t  *parsec_handle_;
-        parsec_context_t *parsec_context_;
-        bool             handle_scheduled;
+        parsec_taskpool_t  *parsec_handle_;
+        parsec_context_t   *parsec_context_;
+        bool                handle_scheduled;
 
     public:
         Handle(parsec_context_t *context) :

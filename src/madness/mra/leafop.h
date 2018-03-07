@@ -81,19 +81,19 @@ namespace madness {
       BoundaryConditions<NDIM> bc=FunctionDefaults<NDIM>::get_bc();
       std::vector<bool> bperiodic=bc.is_periodic();
       for(size_t i=0; i < special_points.size(); ++i){
-	Vector<double, NDIM> simpt;
-	user_to_sim(special_points[i],simpt);
-	Key<NDIM> specialkey=simpt2key(simpt,key.level());
-	// use adaptive scheme: if we are at a low level refine also neighbours
-	size_t ll=get_half_of_special_level(f->get_special_level());
-	if(ll<f->get_initial_level()) ll = f->get_initial_level();
-	if(key.level()>ll){
-	  if(specialkey==key) return true;
-	  else return false;
-	}else{
-	  if(specialkey.is_neighbor_of(key,bperiodic)) return true;
-	  else return false;
-	}
+    Vector<double, NDIM> simpt;
+    user_to_sim(special_points[i],simpt);
+    Key<NDIM> specialkey=simpt2key(simpt,key.level());
+    // use adaptive scheme: if we are at a low level refine also neighbours
+    int ll=get_half_of_special_level(f->get_special_level());
+    if(ll<f->get_initial_level()) ll = f->get_initial_level();
+    if(key.level()>ll){
+      if(specialkey==key) return true;
+      else return false;
+    }else{
+      if(specialkey.is_neighbor_of(key,bperiodic)) return true;
+      else return false;
+    }
       }
       return false;
     }
@@ -112,9 +112,9 @@ namespace madness {
       // if one l is = 2^n or 0 we are at the boundary
       // note that boxes of level 0 and 1 are always boundary boxes
       for(size_t i=0; i < NDIM; i++){
-	if(key.translation()[i] == 0 or key.translation()[i] == pow(2,key.level())-1){
-	  if(FunctionDefaults<NDIM>::get_bc()(i,0)!=BC_PERIODIC)return true;
-	}
+    if(key.translation()[i] == 0 or key.translation()[i] == pow(2,key.level())-1){
+      if(FunctionDefaults<NDIM>::get_bc()(i,0)!=BC_PERIODIC)return true;
+    }
       }
       return false;
     }
@@ -122,7 +122,7 @@ namespace madness {
     // if you want to use milder refinement conditions for special boxes with increasing refinement level
     // Cuspybox_op needs this
     const size_t get_half_of_special_level(const size_t& sl= FunctionDefaults<NDIM>::get_special_level())const{
-      size_t ll = sl;
+      int ll = sl;
       if(sl%2==0) ll=sl/2;
       else ll = (sl+1)/2;
       return ll;
@@ -151,7 +151,7 @@ namespace madness {
     bool operator()(const Key<NDIM> &key, const FunctionImpl<T,NDIM>*const f) const{
       // do not treat boundary boxes beyond level 2 as special (level 1 and 0 consist only of boundary boxes)
       if(not (key.level() < 2)){
-	if(this->box_is_at_boundary(key)) return false;
+    if(this->box_is_at_boundary(key)) return false;
       }
 
       if(NDIM % 2 != 0) MADNESS_EXCEPTION("Cuspybox_op only valid for even dimensions",1);     // if uneven dims are needed just make a new class with NDIM+1/2 and NDIM-LDIM
@@ -160,14 +160,14 @@ namespace madness {
       Key<NDIM / 2> key1;
       Key<NDIM / 2> key2;
       key.break_apart(key1,key2);
-      size_t ll=this->get_half_of_special_level();
+      int ll=this->get_half_of_special_level();
       if(ll<f->get_initial_level()) ll = f->get_initial_level();
       if(key.level()>ll){
-	if(key1 == key2) return true;
-	else return false;
+    if(key1 == key2) return true;
+    else return false;
       }else{
-	if(key1.is_neighbor_of(key2,bperiodic)) return true;
-	else return false;
+    if(key1.is_neighbor_of(key2,bperiodic)) return true;
+    else return false;
       }
       MADNESS_EXCEPTION("We should not end up here (check further of cuspy box)",1);
       return false;
@@ -207,7 +207,7 @@ namespace madness {
     /// if the refinement level is already beyond half of the special_level then refinement is only enforded if the broken keys are the same (6D box contains cusp)
     bool operator()(const Key<NDIM> &key, const FunctionImpl<T,NDIM>*const f) const{
       if(not (key.level() < 2)){
-	if(this->box_is_at_boundary(key)) return false;
+    if(this->box_is_at_boundary(key)) return false;
       }
       MADNESS_ASSERT(particle==1 or particle==2 or particle==0);
       if(f==NULL) MADNESS_EXCEPTION("NuclearCuspyBox: Pointer to function is NULL",1);
@@ -217,14 +217,14 @@ namespace madness {
       // break the special points into 3D points
       std::vector<Vector<double,NDIM/2> > lowdim_sp;
       for(size_t i=0;i<special_points.size();i++){
-	Vector<double,NDIM/2> lowdim_tmp;
-	for(size_t j=0;j<NDIM/2;j++){
-	  lowdim_tmp[j]=special_points[i][j];
-	  // check if the formatting is correct
-	  if(special_points[i][j]!=special_points[i][NDIM/2+j])
-	    MADNESS_EXCEPTION("NuclearCuspyBox: Wrong format of special_point: ",1);
-	}
-	lowdim_sp.push_back(lowdim_tmp);
+    Vector<double,NDIM/2> lowdim_tmp;
+    for(size_t j=0;j<NDIM/2;j++){
+      lowdim_tmp[j]=special_points[i][j];
+      // check if the formatting is correct
+      if(special_points[i][j]!=special_points[i][NDIM/2+j])
+        MADNESS_EXCEPTION("NuclearCuspyBox: Wrong format of special_point: ",1);
+    }
+    lowdim_sp.push_back(lowdim_tmp);
       }
 
       // now break the key appart and check if one if the results is in the neighbourhood of a special point
@@ -235,23 +235,23 @@ namespace madness {
 
       key.break_apart(key1,key2);
       for(size_t i=0; i < lowdim_sp.size(); ++i){
-	Vector<double, NDIM/2> simpt;
-	user_to_sim(lowdim_sp[i],simpt);
-	Key<NDIM/2> specialkey=simpt2key(simpt,key1.level());
-	// use adaptive scheme: if we are at a low level refine also neighbours
-	size_t ll=this->get_half_of_special_level(f->get_special_level());
-	if(ll<f->get_initial_level()) ll = f->get_initial_level();
-	if(key.level()>ll){
-	  if(particle==1 and specialkey==key1) return true;
-	  else if(particle==2 and specialkey==key2) return true;
-	  else if(particle==0 and (specialkey==key1 or specialkey==key2)) return true;
-	  else return false;
-	}else{
-	  if(particle==1 and specialkey.is_neighbor_of(key1,bperiodic)) return true;
-	  else if(particle==2 and specialkey.is_neighbor_of(key2,bperiodic)) return true;
-	  else if(particle==0 and (specialkey.is_neighbor_of(key1,bperiodic) or specialkey.is_neighbor_of(key2,bperiodic))) return true;
-	  else return false;
-	}
+    Vector<double, NDIM/2> simpt;
+    user_to_sim(lowdim_sp[i],simpt);
+    Key<NDIM/2> specialkey=simpt2key(simpt,key1.level());
+    // use adaptive scheme: if we are at a low level refine also neighbours
+    int ll=this->get_half_of_special_level(f->get_special_level());
+    if(ll<f->get_initial_level()) ll = f->get_initial_level();
+    if(key.level()>ll){
+      if(particle==1 and specialkey==key1) return true;
+      else if(particle==2 and specialkey==key2) return true;
+      else if(particle==0 and (specialkey==key1 or specialkey==key2)) return true;
+      else return false;
+    }else{
+      if(particle==1 and specialkey.is_neighbor_of(key1,bperiodic)) return true;
+      else if(particle==2 and specialkey.is_neighbor_of(key2,bperiodic)) return true;
+      else if(particle==0 and (specialkey.is_neighbor_of(key1,bperiodic) or specialkey.is_neighbor_of(key2,bperiodic))) return true;
+      else return false;
+    }
       }
       return false;
     }

@@ -3584,7 +3584,7 @@ namespace madness {
         	// this means that the function has to be completely constructed and not mirrored by another function
 
         	// if the initial level is not reached then this must not be a leaf box
-        	size_t il = result->get_initial_level();
+        	int il = result->get_initial_level();
         	if(FunctionDefaults<NDIM>::get_refine()) il+=1;
         	if(key.level()<il){
         	    //std::cout << "n=" +  std::to_string(key.level()) + " below initial level " + std::to_string(result->get_initial_level()) + "\n";

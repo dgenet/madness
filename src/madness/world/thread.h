@@ -998,15 +998,15 @@ namespace madness {
         }
 #if HAVE_PARSEC
 	    //////////// Parsec Related Begin ////////////////////
-        parsec_execution_context_t exec_context;
-        static const parsec_function_t*   func;
+        parsec_task_t exec_context;
+        static const parsec_task_class_t*   func;
 
         /* This function initializes exec_context from the one in parsec.cpp*/
         void init_exec_context(void)
         {
-            OBJ_CONSTRUCT(&exec_context, parsec_execution_context_t);
-            exec_context.parsec_handle = &madness::madness_handle;
-            exec_context.function = &madness::madness_function;
+            OBJ_CONSTRUCT(&exec_context, parsec_task_t);
+            exec_context.taskpool = &madness::madness_handle;
+            exec_context.task_class = &madness::madness_function;
             exec_context.chore_id = 0;
             exec_context.status = PARSEC_TASK_STATUS_NONE;
             exec_context.priority = is_high_priority() ? 1000 : 0; // 1 & 0 would work as good
@@ -1311,10 +1311,10 @@ namespace madness {
             //////////// Parsec Related Begin ////////////////////
             /* Initialize the execution context and give it to the scheduler*/
 #if HAVE_PARSEC
-            parsec_execution_context_t *context = &(task->exec_context);
+            parsec_task_t *context = &(task->exec_context);
             PARSEC_LIST_ITEM_SINGLETON(context);
-            parsec_atomic_add_32b(&madness_handle.nb_tasks, 1);
-            __parsec_schedule(parsec->context()->virtual_processes[0]->execution_units[0], context, 0);
+            parsec_atomic_add_32b((volatile uint32_t*)&madness_handle.nb_tasks, 1);
+            __parsec_schedule(parsec->context()->virtual_processes[0]->execution_streams[0], context, 0);
             //////////// Parsec Related End ////////////////////
 #elif HAVE_INTEL_TBB
             if(task->is_high_priority()) {
