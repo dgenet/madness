@@ -2,10 +2,8 @@
 #define MADNESS_PARSEC_INCLUED
 
 #include <madness/madness_config.h>
-#warning "I'm here! step 1"
 
 #ifdef HAVE_PARSEC
-#warning "I'm here! step 2"
 #include "madness/config.h"
 #include <parsec.h>
 #include <parsec/parsec_config.h>

@@ -42,7 +42,7 @@
 #endif
 
 #ifdef HAVE_PARSEC
-# include <parsec_config.h>
+# include <parsec/parsec_config.h>
 # ifdef PARSEC_HAVE_CUDA
 #  include <cuda_runtime.h>
 # endif

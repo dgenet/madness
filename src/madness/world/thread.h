@@ -1313,7 +1313,7 @@ namespace madness {
 #if HAVE_PARSEC
             parsec_task_t *context = &(task->exec_context);
             PARSEC_LIST_ITEM_SINGLETON(context);
-            parsec_atomic_add_32b((volatile uint32_t*)&madness_handle.nb_tasks, 1);
+            parsec_atomic_fetch_inc_int32(&madness_handle.nb_tasks);
             __parsec_schedule(parsec->context()->virtual_processes[0]->execution_streams[0], context, 0);
             //////////// Parsec Related End ////////////////////
 #elif HAVE_INTEL_TBB

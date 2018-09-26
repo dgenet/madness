@@ -364,7 +364,7 @@ namespace madness {
         if( 0 != parsec_enqueue(ThreadPool::parsec->context(), &madness_handle) ) {
             std::cerr << "ERROR: parsec_enqueue!!" << std::endl;
         }
-        parsec_atomic_add_32b((volatile uint32_t*)&madness_handle.nb_tasks, 1);
+        parsec_atomic_fetch_inc_int32(&madness_handle.nb_tasks);
         if( 0 != parsec_context_start(ThreadPool::parsec->context()) ) {
             std::cerr << "ERROR: parsec_context_start!!" << std::endl;
         }
@@ -530,7 +530,7 @@ namespace madness {
         while (instance_ptr->nfinished != instance_ptr->nthreads);
 #else  /* HAVE_PARSEC */
 	/* Remove the fake task we used to keep the engine up and running */
-        int remaining = parsec_atomic_add_32b((volatile uint32_t*)&madness_handle.nb_tasks, -1);
+        int32_t remaining = parsec_atomic_fetch_dec_int32(&madness_handle.nb_tasks) - 1;
         parsec_check_complete_cb(&madness_handle, parsec->context(), remaining);
         parsec_context_wait(parsec->context());
 #endif

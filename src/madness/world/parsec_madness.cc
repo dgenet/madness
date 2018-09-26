@@ -1,3 +1,4 @@
+
 #include <madness/madness_config.h>
 
 #ifdef HAVE_PARSEC
@@ -16,7 +17,7 @@ namespace madness {
                                                          parsec_task_t *task)
     {
         (void)es;
-        parsec_atomic_add_32b((volatile uint32_t*)&task->taskpool->nb_tasks, -1);
+        parsec_atomic_fetch_dec_int32(&task->taskpool->nb_tasks);
         return PARSEC_HOOK_RETURN_DONE;
     }
 
@@ -114,8 +115,8 @@ namespace madness {
             taskpool_id : 0,
             nb_tasks : 0,
             taskpool_type : 0,
-            devices_mask : PARSEC_DEVICES_ALL,
-            initial_number_tasks : 0,
+            devices_index_mask : PARSEC_DEVICES_ALL,
+            nb_task_classes : 1,
             priority : 0,
             nb_pending_actions : 1,
             context : NULL,

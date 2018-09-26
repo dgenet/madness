@@ -23,9 +23,9 @@
 # set(SPI_DIR    "/bgsys/drivers/ppcfloor/spi")
 
 # Set compilers
-set(CMAKE_C_COMPILER       "/opt/gcc-5.1/bin/gcc")
-set(CMAKE_CXX_COMPILER     "/opt/gcc-5.1/bin/g++")
-set(CMAKE_Fortran_COMPILER "/opt/gcc-5.1/bin/gfortran")
+set(CMAKE_C_COMPILER       "/sw/gcc/7.1.0/bin/gcc")
+set(CMAKE_CXX_COMPILER     "/sw/gcc/7.1.0/bin/g++")
+set(CMAKE_Fortran_COMPILER "/sw/gcc/7.1.0/bin/gfortran")
 set(MPI_C_COMPILER         "mpicc")
 set(MPI_CXX_COMPILER       "mpicxx")
 
@@ -43,10 +43,10 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -Wall" CACHE STRING "Inital C++ relea
 
 
 # Set library
-
+set(MKLROOT "/opt/intel/compilers_and_libraries_2017/linux/mkl")
 #set(XL_LIBRARIES ${XLSMP_DIR}/bglib64/libxlsmp.a)
 #set(XLF_LIBRARIES ${XLF_DIR}/bglib64/libxlf90_r.a;${XLF_DIR}/bglib64/libxlfmath.a;${XLF_DIR}/bglib64/libxlopt.a;${XLF_DIR}/bglib64/libxl.a;-ldl;-lm)
-set(BLAS_LIBRARIES /opt/intel/mkl/lib/intel64/libmkl_sequential.so;/opt/intel/mkl/lib/intel64/libmkl_core.so;/opt/intel/mkl/lib/intel64/libmkl_gf_lp64.so;-lm)
+set(BLAS_LIBRARIES ${MKLROOT}/lib/intel64/libmkl_sequential.so;${MKLROOT}/lib/intel64/libmkl_core.so;${MKLROOT}/lib/intel64/libmkl_gf_lp64.so;-lm)
 set(LAPACK_LIBRARIES ${BLAS_LIBRARIES})
 set(FORTRAN_INTEGER_SIZE "4" CACHE STRING "Set Fortran integer size in bytes")
 set(HAVE_SPINLOCKS OFF CACHE BOOL "Enable if pthread lib supports spinlocks in pmrrr")
