@@ -193,6 +193,7 @@ set(MPI_THREAD "multiple" CACHE STRING "Thread level for MPI (multiple|serialize
 if(MPI_THREAD STREQUAL "multiple")
   set(MADNESS_MPI_THREAD_LEVEL "MPI_THREAD_MULTIPLE")
 elseif(MPI_THREAD STREQUAL "serialized")
+  set(MADNESS_SERIALIZES_MPI "1")
   set(MADNESS_MPI_THREAD_LEVEL "MPI_THREAD_SERIALIZED")
   if (ENABLE_ELEMENTAL)
     message (FATAL_ERROR "Use of Elemental precludes MPI_THREAD=serialized, must use MPI_THREAD=multiple")

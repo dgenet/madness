@@ -55,13 +55,6 @@
 #include <mpi.h>
 #endif
 
-
-#if MADNESS_MPI_THREAD_LEVEL == MPI_THREAD_SERIALIZED
-#  define MADNESS_SERIALIZES_MPI
-#endif
-
-
-
 #include <madness/world/worldmutex.h>
 #include <madness/world/type_traits.h>
 #include <iostream>
@@ -78,7 +71,9 @@
 namespace SafeMPI {
 
     extern madness::SCALABLE_MUTEX_TYPE charon;      // Inside safempi.cc
+    
 #ifdef MADNESS_SERIALIZES_MPI
+    #warning "MADNESS SERIALIZES MPI"
 #define SAFE_MPI_GLOBAL_MUTEX madness::ScopedMutex<madness::SCALABLE_MUTEX_TYPE> obolus(SafeMPI::charon);
 #else
 #define SAFE_MPI_GLOBAL_MUTEX

@@ -82,6 +82,7 @@
 
 /* Thread-safety level requested from MPI by MADNESS */
 #define MADNESS_MPI_THREAD_LEVEL @MADNESS_MPI_THREAD_LEVEL@
+#cmakedefine MADNESS_SERIALIZES_MPI
 #cmakedefine STUBOUTMPI 1
 
 /* The default binding for threads */
