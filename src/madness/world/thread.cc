@@ -338,7 +338,7 @@ namespace madness {
 #endif
     // The constructor is private to enforce the singleton model
     ThreadPool::ThreadPool(int nthread) :
-            threads(nullptr), main_thread(), nthreads(nthread), finish(false)
+        threads(nullptr), main_thread(), queue(), nthreads(nthread), finish(false)
     {
         nfinished = 0;
         instance_ptr = this;
