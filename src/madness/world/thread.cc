@@ -357,7 +357,7 @@ namespace madness {
         ThreadPool::parsec = new Parsec::Parsec(nb_threads, params);
 #ifdef PARSEC_PROF_TRACE
         madness_handle.profiling_array = (int*)malloc(2*sizeof(int));
-        parsec_profiling_add_dictionary_keyword("MADNESS TASK", "fill:CC2828", 0, "",
+        parsec_profiling_add_dictionary_keyword("MADNESS_TASK", "fill:CC2828", 0, "",
                                                 (int *)&madness_handle.profiling_array[0],
                                                 (int *)&madness_handle.profiling_array[1]);
 #endif

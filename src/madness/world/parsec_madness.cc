@@ -35,7 +35,19 @@ namespace madness {
                                      parsec_task_t *task)
     {
         PoolTaskInterface *c = ((PoolTaskInterface **)task->locals)[0];
-        c->run(TaskThreadEnv(1, 0, 0));
+#if defined(PARSEC_PROF_TRACE)
+        PARSEC_PROFILING_TRACE(es->es_profile,
+                               task->taskpool->profiling_array[2 * task->task_class->task_class_id],
+                               static_cast<uint64_t>(reinterpret_cast<uintptr_t>(c)),
+                               task->taskpool->taskpool_id, NULL);
+#endif
+        c->run(TaskThreadEnv(1, es->th_id, 0));
+#if defined(PARSEC_PROF_TRACE)
+        PARSEC_PROFILING_TRACE(es->es_profile,
+                               task->taskpool->profiling_array[2 * task->task_class->task_class_id + 1],
+                               static_cast<uint64_t>(reinterpret_cast<uintptr_t>(c)),
+                               task->taskpool->taskpool_id, NULL);
+#endif
         return PARSEC_HOOK_RETURN_DONE;
     }
 
